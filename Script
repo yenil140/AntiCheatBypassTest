@@ -1,0 +1,53 @@
+-- trash anti cheat
+-- bypasser 2019
+-- amazing anti cheat hhAha
+
+local plr = game:GetService("Players").LocalPlayer
+
+if not getgenv().MTAPIMutex then loadstring(game:HttpGet("https://pastebin.com/raw/1NcuWJa9", true))() end
+
+-- ^ load metatable lib
+
+plr:AddCallHook("Kick", function(...) end)
+
+-- ^ anti-kick
+
+plr.Character:FindFirstChild("HumanoidRootPart"):AddPropertyEmulator("Position")
+
+-- ^ bypassed anti tp
+
+local clientChar = game:GetService("Players").LocalPlayer.Character;
+local human = clientChar:FindFirstChildOfClass("Humanoid")
+local torso = clientChar:FindFirstChild("Torso") or clientChar:FindFirstChild("UpperTorso")
+local root = clientChar:FindFirstChild("HumanoidRootPart")
+
+local signals = {
+	plr.Backpack.ChildAdded;
+    root:GetPropertyChangedSignal("CFrame");
+    root:GetPropertyChangedSignal("Position");
+    root:GetPropertyChangedSignal("Velocity");
+	root.ChildAdded;
+	root.DescendantAdded;
+    torso:GetPropertyChangedSignal("Velocity");
+    torso:GetPropertyChangedSignal("CFrame");
+    torso:GetPropertyChangedSignal("Position");
+	torso.ChildAdded;
+	torso.DescendantAdded;
+    human:GetPropertyChangedSignal("WalkSpeed");
+    human:GetPropertyChangedSignal("JumpPower");
+    human:GetPropertyChangedSignal("HipHeight");
+}
+
+-- destroy connections ^
+
+for i, signal in next, signals do
+    pcall(function()
+        for i, connection in next, getconnections(signal) do
+            if not checkcaller() then
+                connection:Disable()
+            end
+        end
+    end)
+end
+
+-- use custom getconnections exploit functions ^
